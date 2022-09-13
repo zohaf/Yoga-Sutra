@@ -1,9 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: system-ui, "IBM Plex Sans", -apple-system, BlinkMacSystemFont,
+    Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans,
+    Helvetica Neue, sans-serif;
+}
+
+html {
+  --primary-color: #f6a400;
+  --black-color: #000;
+  --grey-color: rgba(255, 255, 255, 0.5);
+  --screen-xs: 375px;
+  --screen-sm: 575px;
+}
+
+body {
+  background-color: rgb(25, 33, 254);
+  /* min-height: 100vh; */
 }
 
 a {
