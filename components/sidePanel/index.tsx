@@ -6,6 +6,6 @@ type SidePanelPropps = {
   children: ReactNode;
 };
 
-export const SidePanel: FC<SidePanelPropps> = ({ children }) => {
-  return <div className="px-10">{children}</div>;
-};
+export const SidePanel: FC<SidePanelPropps> = ({ children }) => (
+  <div className="px-10">{children}</div>
+);
