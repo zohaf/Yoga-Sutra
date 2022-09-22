@@ -12,7 +12,7 @@ body {
 }
 
 html {
-  --primary-color: #f6a400;
+  --primary-color: rgb(25, 33, 254);
   --black-color: #000;
   --grey-color: rgba(255, 255, 255, 0.5);
   --screen-xs: 375px;
@@ -20,7 +20,7 @@ html {
 }
 
 body {
-  background-color: rgb(25, 33, 254);
+  background-color: var(--primary-color);
   /* min-height: 100vh; */
 }
 
@@ -39,6 +39,6 @@ a {
   }
   body {
     color: white;
-    background: black;
+    background: var(--primary-color);
   }
 }

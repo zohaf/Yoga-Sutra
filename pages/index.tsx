@@ -1,30 +1,42 @@
 import { NextPage } from "next";
+import { useState } from "react";
+import { Accordion } from "../components/accordion";
 import { Container } from "../components/container";
-import { SidePanel } from "../components/sidePanel";
-import { VerseOverall } from "../components/verseOverall";
+import { VerseSingle } from "../components/verseSingle";
+import data from "../data.json";
 
-const Home: NextPage = () => (
-  <div className="flex mt-48">
-    <SidePanel>
-      <h1>chapter 1</h1>
-      <h1>chapter 2</h1>
-      <h1>chapter 3</h1>
-      <h1>chapter 4</h1>
-    </SidePanel>
+const Home: NextPage = () => {
+  const [clickedIndex, setClickedIndex] = useState(null);
+
+  return (
     <Container>
-      <VerseOverall />
+      {data?.map((chapter, index) => (
+        <Accordion key={index}>
+          <Accordion.Header
+            onClick={() => {
+              if (clickedIndex === index) {
+                setClickedIndex(null);
+              } else {
+                setClickedIndex(index);
+              }
+            }}
+            title={chapter.title}
+          />
+          {clickedIndex === index && (
+            <Accordion.Body>
+              {chapter.verses?.map((verse, index) => (
+                <VerseSingle
+                  key={index}
+                  verseNumber={verse.verseNumber}
+                  verseEnglish={verse.english}
+                />
+              ))}
+            </Accordion.Body>
+          )}
+        </Accordion>
+      ))}
     </Container>
-    <SidePanel>
-      <ul>
-        <li>1.1</li>
-        <li>1.10</li>
-        <li>1.20</li>
-        <li>1.30</li>
-        <li>1.40</li>
-        <li>1.50</li>
-      </ul>
-    </SidePanel>
-  </div>
-);
+  );
+};
 
 export default Home;

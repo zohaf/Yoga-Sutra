@@ -7,5 +7,5 @@ type ContainerPropps = {
 };
 
 export const Container: FC<ContainerPropps> = ({ children }) => (
-  <div className="flex justify-center m-auto">{children}</div>
+  <div className="flex flex-col mx-auto mt-5">{children}</div>
 );
