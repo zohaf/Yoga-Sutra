@@ -1,16 +1,43 @@
 import { NextPage } from "next";
 import { useState } from "react";
+import { useContentful } from "react-contentful";
+import type { HookResponse } from "react-contentful";
 import { Accordion } from "../components/accordion";
 import { Container } from "../components/container";
 import { VerseSingle } from "../components/verseSingle";
-import data from "../data.json";
+
+type Verse = {
+  fields: {
+    verseNumber: number;
+    englishTranslation: string;
+  };
+};
+
+type Chapter = {
+  fields: {
+    chapterNumber: number;
+    chapterTitle: string;
+    verses: Verse[];
+  };
+};
+
+type BookData = {
+  items: Chapter[];
+};
 
 const Home: NextPage = () => {
+  let { data: contentfulData }: HookResponse = useContentful({
+    contentType: "chapter",
+    query: {},
+  });
+
+  const book = contentfulData as BookData;
+
   const [clickedIndex, setClickedIndex] = useState(null);
 
   return (
     <Container>
-      {data?.map((chapter, index) => (
+      {book?.items?.map((chapter, index) => (
         <Accordion key={index}>
           <Accordion.Header
             onClick={() => {
@@ -20,15 +47,15 @@ const Home: NextPage = () => {
                 setClickedIndex(index);
               }
             }}
-            title={chapter.title}
+            title={chapter.fields.chapterTitle}
           />
           {clickedIndex === index && (
             <Accordion.Body>
-              {chapter.verses?.map((verse, index) => (
+              {chapter.fields.verses?.map((verse, index) => (
                 <VerseSingle
                   key={index}
-                  verseNumber={verse.verseNumber}
-                  verseEnglish={verse.english}
+                  verseNumber={verse.fields.verseNumber}
+                  verseEnglish={verse.fields.englishTranslation}
                 />
               ))}
             </Accordion.Body>
