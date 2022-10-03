@@ -1,5 +1,6 @@
 import { Children } from "react";
 import type { FC, ReactNode } from "react";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 
 type SubComponent = {
   Header: typeof Header;
@@ -17,8 +18,9 @@ export const Accordion: FC<{ children: ReactNode }> & SubComponent = ({
     return child?.type.displayName === "Body" ? child : null;
   });
 
+  const [animateParent] = useAutoAnimate();
   return (
-    <div {...restProps} className="flex flex-col">
+    <div ref={animateParent} {...restProps} className="flex flex-col">
       {header}
       {body}
     </div>
@@ -31,7 +33,7 @@ const Header: FC<{ title: string; onClick: () => void }> = ({
 }) => (
   <div
     onClick={onClick}
-    className="flex justify-between w-full py-2 bg-sky-300"
+    className="flex justify-between w-full py-2 cursor-pointer font-extrabold text-xl"
   >
     <div />
     <h1>{title}</h1>

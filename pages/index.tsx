@@ -9,7 +9,9 @@ import { VerseSingle } from "../components/verseSingle";
 type Verse = {
   fields: {
     verseNumber: number;
-    englishTranslation: string;
+    englishVerse: string;
+    sanskritVerse: string;
+    sanskritWords: string[];
   };
 };
 
@@ -51,11 +53,14 @@ const Home: NextPage = () => {
           />
           {clickedIndex === index && (
             <Accordion.Body>
+              <div className="h-[2px] bg-white mb-8" />
               {chapter.fields.verses?.map((verse, index) => (
                 <VerseSingle
                   key={index}
                   verseNumber={verse.fields.verseNumber}
-                  verseEnglish={verse.fields.englishTranslation}
+                  verseEnglish={verse.fields.englishVerse}
+                  verseSanskrit={verse.fields.sanskritVerse}
+                  sanskritWords={verse.fields.sanskritWords}
                 />
               ))}
             </Accordion.Body>

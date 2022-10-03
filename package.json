@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@fontsource/ibm-plex-sans": "^4.5.12",
+    "@formkit/auto-animate": "^1.0.0-beta.3",
     "@types/jest": "^29.0.2",
     "@types/node": "^18.7.17",
     "@types/react": "^18.0.20",
