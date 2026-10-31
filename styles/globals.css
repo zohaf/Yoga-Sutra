@@ -30,7 +30,13 @@ html {
   --screen-sm: 575px;
 }
 
+html {
+  /* The page is light text on a dark background in every colour scheme. */
+  color-scheme: dark;
+}
+
 body {
+  color: white;
   background-color: var(--primary-color);
   /* min-height: 100vh; */
 }
@@ -42,14 +48,4 @@ a {
 
 * {
   box-sizing: border-box;
-}
-
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
-  body {
-    color: white;
-    background: var(--primary-color);
-  }
 }
