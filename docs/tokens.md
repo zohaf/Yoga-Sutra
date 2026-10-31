@@ -1,7 +1,7 @@
 # Tokens
 
 Status: initial set, added with the `Verse` component (2026-11-01). Values carry over the existing look
-(white on blue, IBM Plex Sans). Revisit after [the point of view](point-of-view.md) is approved.
+(white on blue, system font). Revisit after [the point of view](point-of-view.md) is approved.
 
 Source: [`styles/tokens.css`](../styles/tokens.css), imported first in `styles/globals.css`. Components
 read tokens with `var(--token)` in their CSS Module; they do not hard-code colours, sizes or spacing.
@@ -19,14 +19,16 @@ The page uses the same colours in light and dark mode (`color-scheme: dark`).
 
 ## Typography
 
-| Token                                  | Value                      |
-| -------------------------------------- | -------------------------- |
-| `--font-family-sans`                   | IBM Plex Sans, then system |
-| `--font-weight-light / regular / bold` | 300 / 400 / 700            |
-| `--font-size-body / heading`           | 1rem / 1.25rem             |
-| `--line-height-body / heading`         | 1.5 / 1.4                  |
+| Token                                                   | Value                     |
+| ------------------------------------------------------- | ------------------------- |
+| `--font-family-sans`                                    | System font (`system-ui`) |
+| `--font-weight-extralight / regular / bold / extrabold` | 200 / 400 / 700 / 800     |
+| `--font-size-body / heading`                            | 1rem / 1.25rem            |
+| `--line-height-body / heading`                          | 1.5 / 1.4                 |
 
-Only weights 300, 400 and 700 are loaded (`app/layout.tsx`). Use no other weight.
+No web font is loaded: the system font (San Francisco on Apple devices, Segoe UI on Windows, Roboto on
+Android) has all four weights. IBM Plex Sans was tried and set aside on 2026-11-01 (Zoha preferred the
+system font).
 
 ## Space
 
@@ -45,10 +47,20 @@ Only weights 300, 400 and 700 are loaded (`app/layout.tsx`). Use no other weight
 so the value is written in each `@media (min-width: 48rem)` rule. Styles are mobile first: base rules are
 for small screens, the media query adds the wide layout.
 
+## Motion
+
+| Token                      | Value                           | Use                                  |
+| -------------------------- | ------------------------------- | ------------------------------------ |
+| `--motion-duration-expand` | 500ms                           | Chapter panel height, open and close |
+| `--motion-duration-fade`   | 400ms                           | Chapter panel content fade           |
+| `--motion-easing-soft`     | `cubic-bezier(0.25, 1, 0.5, 1)` | Fast start, long gentle settle       |
+
+Under `prefers-reduced-motion: reduce` both durations are 0ms.
+
 ## Lines
 
 `--border-width-rule` 2px, `--focus-ring-width` 2px, `--focus-ring-offset` 2px.
 
 ## Not defined yet
 
-Motion (duration, easing), radius, and any second colour.
+Radius and any second colour.

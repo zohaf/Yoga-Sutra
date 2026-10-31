@@ -15,8 +15,6 @@
     "test:e2e": "playwright test"
   },
   "dependencies": {
-    "@fontsource/ibm-plex-sans": "^5.3.0",
-    "@formkit/auto-animate": "^0.10.0",
     "autoprefixer": "^10.4.9",
     "contentful": "^11.12.10",
     "next": "^16.4.3",

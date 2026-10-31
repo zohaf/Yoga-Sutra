@@ -6,14 +6,16 @@ revisit after [the point of view](point-of-view.md) is approved.
 ## Components
 
 - One folder per component: `components/<name>/index.tsx`, `<Name>.module.css`, `<name>.test.tsx`.
-- Styling in the CSS Module, values from [tokens](tokens.md). No Tailwind classes in new or rebuilt
-  components (Tailwind remains only in `accordion` and `chapterList` until they are rebuilt).
+- Styling in the CSS Module, values from [tokens](tokens.md). No Tailwind classes in components.
 - Mobile first: base styles for 375px, `@media (min-width: 48rem)` for the wide layout. No fixed minimum
   widths; grid columns use `minmax(0, …)` so text wraps instead of overflowing.
 - Props take the data types from `lib/contentful.ts` (for example `verse: Verse`), not one prop per field.
 - Server components by default. Add `"use client"` only for state or browser APIs.
 - DOM order is reading order. A layout variant that changes which text leads changes the DOM order, not
   only the CSS order.
+
+- Motion uses the motion tokens and nothing else; reduced motion sets durations to 0.
+- Content that opens and closes stays in the DOM, `inert` while closed, so the transition can run.
 
 ## Markup
 

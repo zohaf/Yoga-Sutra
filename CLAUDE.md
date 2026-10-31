@@ -3,8 +3,8 @@
 One-page online edition of the Yoga-Sûtra: four chapters as expandable sections; each verse shows the
 English translation, the Sanskrit and a word-by-word glossary. Content comes from Contentful.
 
-Stack: Next.js 16 (App Router), React 19, TypeScript 5 (strict), Yarn 4. Tailwind 3 remains in `accordion` and
-`chapterList` only; new components use CSS Modules and tokens.
+Stack: Next.js 16 (App Router), React 19, TypeScript 5 (strict), Yarn 4. Components use CSS Modules and tokens;
+Tailwind 3 is still installed but no component uses it.
 
 ## Commands
 

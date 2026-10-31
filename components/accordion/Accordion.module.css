@@ -1,0 +1,57 @@
+.accordion {
+  display: flex;
+  flex-direction: column;
+}
+
+.heading {
+  margin: 0;
+}
+
+.trigger {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  padding-block: var(--space-2);
+  font-size: var(--font-size-heading);
+  font-weight: var(--font-weight-extrabold);
+  line-height: var(--line-height-heading);
+  text-align: end;
+  cursor: pointer;
+}
+
+/*
+ * The panel is always in the DOM. Closed: zero height, transparent, and
+ * hidden from the accessibility tree once the transition ends (visibility).
+ * Open: grid row grows to the content height while the content fades in.
+ */
+.panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    grid-template-rows var(--motion-duration-expand) var(--motion-easing-soft),
+    opacity var(--motion-duration-fade) var(--motion-easing-soft),
+    visibility 0s linear var(--motion-duration-expand);
+}
+
+.panel[data-open="true"] {
+  grid-template-rows: 1fr;
+  opacity: 1;
+  visibility: visible;
+  transition:
+    grid-template-rows var(--motion-duration-expand) var(--motion-easing-soft),
+    opacity var(--motion-duration-fade) var(--motion-easing-soft),
+    visibility 0s linear 0s;
+}
+
+.panelInner {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.content {
+  margin-top: var(--space-2);
+  padding-top: var(--space-8);
+  border-top: var(--border-width-rule) solid var(--color-rule);
+}

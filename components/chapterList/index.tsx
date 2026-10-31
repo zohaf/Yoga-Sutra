@@ -23,14 +23,14 @@ export const ChapterList: FC<{ chapters: Chapter[] }> = ({ chapters }) => {
         expanded={clickedIndex === index}
         controls={`chapter-${chapter.id}`}
       />
-      {clickedIndex === index && (
-        <Accordion.Body id={`chapter-${chapter.id}`}>
-          <div className="h-[2px] bg-white mb-8" />
-          {chapter.verses.map((verse) => (
-            <Verse key={verse.id} verse={verse} />
-          ))}
-        </Accordion.Body>
-      )}
+      <Accordion.Body
+        id={`chapter-${chapter.id}`}
+        open={clickedIndex === index}
+      >
+        {chapter.verses.map((verse) => (
+          <Verse key={verse.id} verse={verse} />
+        ))}
+      </Accordion.Body>
     </Accordion>
   ));
 };

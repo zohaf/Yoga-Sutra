@@ -39,6 +39,8 @@ test("lists the four chapters, collapsed", async ({ page }) => {
       "false",
     );
   }
+  // Closed panels stay in the DOM for the animation but are hidden from AT.
+  await expect(page.getByRole("article")).toHaveCount(0);
 });
 
 test("opens a chapter and shows its verses", async ({ page }) => {
@@ -68,6 +70,21 @@ test("has no horizontal scroll", async ({ page }) => {
     () => document.documentElement.scrollWidth - window.innerWidth,
   );
   expect(overflow).toBeLessThanOrEqual(0);
+});
+
+test.describe("with reduced motion", () => {
+  test.use({ reducedMotion: "reduce" });
+
+  test("opens chapters without a transition", async ({ page }) => {
+    const button = chapterButton(page, "Integration");
+    const panel = page.locator(
+      `#${await button.getAttribute("aria-controls")}`,
+    );
+    const duration = await panel.evaluate(
+      (el) => getComputedStyle(el).transitionDuration,
+    );
+    expect(duration.split(",").every((d) => parseFloat(d) === 0)).toBe(true);
+  });
 });
 
 // 640 CSS px is a 1280px window at 200% zoom (WCAG 1.4.4 / 1.4.10).

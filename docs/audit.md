@@ -8,17 +8,18 @@ WCAG 2.2 AA. Nothing here has been changed yet unless marked **fixed**.
 
 The findings below are a snapshot. Building `components/verse` resolved:
 
-- Tokens in `styles/tokens.css`; `Verse` and `Container` use CSS Modules (`accordion` and `chapterList`
-  still use Tailwind).
+- Tokens in `styles/tokens.css`; all components use CSS Modules.
 - Reflow at 640–830px and the full-width layout at 1280px (`Container` is now max-width + gutter).
-- IBM Plex Sans is shown, with weights 300, 400 and 700 loaded; the 800 and 200 weights are no longer
-  used.
+- Font: the system font is kept by choice (IBM Plex Sans was tried and set aside); the font package is
+  removed.
+- Accordion: CSS Module, no `displayName` child lookup, softer open/close transition on motion tokens
+  (auto-animate removed).
 - Heading outline (visually hidden `h1`, chapter `h2`, verse `h3`), `<main>`, `lang="sa-Latn"`, glossary
   as `<dl>`, verse reference announced as "Chapter 1, verse 1", visible focus outline, page description.
 - `tailwind.config.js` scans `app/`.
 
-Still open: Accordion structure and focus jump (sections 5 and 8), chapter separator, motion tokens,
-content (section 7).
+Still open: focus jump when one chapter closes above another (section 8), removing Tailwind, content
+(section 7).
 
 ## Where the project stands
 
