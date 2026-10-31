@@ -4,7 +4,7 @@ import { useState } from "react";
 import type { FC } from "react";
 import type { Chapter } from "../../lib/contentful";
 import { Accordion } from "../accordion";
-import { VerseSingle } from "../verseSingle";
+import { Verse } from "../verse";
 
 export const ChapterList: FC<{ chapters: Chapter[] }> = ({ chapters }) => {
   const [clickedIndex, setClickedIndex] = useState<number | null>(null);
@@ -27,14 +27,7 @@ export const ChapterList: FC<{ chapters: Chapter[] }> = ({ chapters }) => {
         <Accordion.Body id={`chapter-${chapter.id}`}>
           <div className="h-[2px] bg-white mb-8" />
           {chapter.verses.map((verse) => (
-            <VerseSingle
-              key={verse.id}
-              chapterNumber={chapter.chapterNumber}
-              verseNumber={verse.verseNumber}
-              verseEnglish={verse.english}
-              verseSanskrit={verse.sanskrit}
-              sanskritWords={verse.sanskritWords}
-            />
+            <Verse key={verse.id} verse={verse} />
           ))}
         </Accordion.Body>
       )}

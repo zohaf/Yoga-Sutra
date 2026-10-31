@@ -7,6 +7,7 @@ export default async function Home() {
 
   return (
     <Container>
+      <h1 className="visually-hidden">Yoga Sutra of Patanjali</h1>
       <ChapterList chapters={chapters} />
     </Container>
   );

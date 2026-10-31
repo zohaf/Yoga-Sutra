@@ -8,17 +8,20 @@ export const chapters: Chapter[] = [
     verses: [
       {
         id: "c1v1",
-        verseNumber: 1,
+        reference: { chapter: 1, verse: 1 },
         english: "Now, the teachings of yoga.",
         sanskrit: "atha yogānuśāsanam",
-        sanskritWords: ["atha = now", "anuśāsanam = teaching, exposition"],
+        glossary: [
+          { term: "atha", meaning: "now" },
+          { term: "anuśāsanam", meaning: "teaching, exposition" },
+        ],
       },
       {
         id: "c1v2",
-        verseNumber: 2,
+        reference: { chapter: 1, verse: 2 },
         english: "Yoga is to still the patterning of consciousness.",
         sanskrit: null,
-        sanskritWords: [],
+        glossary: [],
       },
     ],
   },
@@ -29,10 +32,10 @@ export const chapters: Chapter[] = [
     verses: [
       {
         id: "c2v1",
-        verseNumber: 1,
+        reference: { chapter: 2, verse: 1 },
         english: "Second chapter, first verse.",
         sanskrit: null,
-        sanskritWords: [],
+        glossary: [],
       },
     ],
   },

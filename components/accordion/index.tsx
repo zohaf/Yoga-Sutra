@@ -40,17 +40,17 @@ const Header: FC<{
   expanded: boolean;
   controls: string;
 }> = ({ title, onClick, expanded, controls }) => (
-  <h1 className="font-extrabold text-xl">
+  <h2 className="font-bold text-xl">
     <button
       type="button"
       onClick={onClick}
       aria-expanded={expanded}
       aria-controls={controls}
-      className="flex justify-end w-full py-2 cursor-pointer font-extrabold text-xl"
+      className="flex justify-end w-full py-2 cursor-pointer font-bold text-xl"
     >
       {title}
     </button>
-  </h1>
+  </h2>
 );
 
 const Body: FC<{ id: string; children: ReactNode }> = ({ id, children }) => (

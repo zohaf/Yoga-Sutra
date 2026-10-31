@@ -1,0 +1,56 @@
+/*
+ * Mobile first: one column in reading order (reference, leading text,
+ * second text, glossary). From 48rem: reference | leading text | second text.
+ */
+.verse {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-4);
+  margin-bottom: var(--space-10);
+}
+
+.reference {
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-body);
+}
+
+.translation,
+.original {
+  font-weight: var(--font-weight-bold);
+}
+
+.missing {
+  font-style: italic;
+}
+
+.sanskrit {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.glossary {
+  margin: 0;
+}
+
+.entry {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: var(--space-1);
+  font-weight: var(--font-weight-light);
+}
+
+.meaning {
+  margin: 0;
+}
+
+@media (min-width: 48rem) {
+  .verse {
+    grid-template-columns: var(--verse-reference-width) minmax(0, 3fr) minmax(
+        0,
+        2fr
+      );
+    column-gap: var(--space-8);
+  }
+}

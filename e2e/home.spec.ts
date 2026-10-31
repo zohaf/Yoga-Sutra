@@ -46,7 +46,9 @@ test("opens a chapter and shows its verses", async ({ page }) => {
   await button.click();
   await expect(button).toHaveAttribute("aria-expanded", "true");
   const panel = page.locator(`#${await button.getAttribute("aria-controls")}`);
-  await expect(panel.getByText("I. 1", { exact: true })).toBeVisible();
+  await expect(
+    panel.getByRole("heading", { level: 3, name: "Chapter 1, verse 1" }),
+  ).toBeVisible();
 });
 
 test("opens a chapter with the keyboard", async ({ page }) => {
@@ -61,6 +63,7 @@ test("opens a chapter with the keyboard", async ({ page }) => {
 
 test("has no horizontal scroll", async ({ page }) => {
   await chapterButton(page, "The Path To Realization").click();
+  await page.waitForFunction(() => document.getAnimations().length === 0);
   const overflow = await page.evaluate(
     () => document.documentElement.scrollWidth - window.innerWidth,
   );
@@ -68,17 +71,45 @@ test("has no horizontal scroll", async ({ page }) => {
 });
 
 // 640 CSS px is a 1280px window at 200% zoom (WCAG 1.4.4 / 1.4.10).
-// Known failure: fixed min-widths in VerseSingle and min-w-fit in Container
-// overflow by 160px. Remove test.fail() once the verse layout is rebuilt.
-test("has no horizontal scroll at 640px", async ({ page }, testInfo) => {
-  test.skip(testInfo.project.name !== "desktop-1280", "desktop only");
-  test.fail();
-  await page.setViewportSize({ width: 640, height: 800 });
-  await chapterButton(page, "The Path To Realization").click();
-  const overflow = await page.evaluate(
-    () => document.documentElement.scrollWidth - window.innerWidth,
+test.describe("at 640px", () => {
+  test.use({ viewport: { width: 640, height: 800 } });
+
+  test("has no horizontal scroll", async ({ page }, testInfo) => {
+    test.skip(testInfo.project.name !== "desktop-1280", "desktop only");
+    await chapterButton(page, "The Path To Realization").click();
+    await page.waitForFunction(() => document.getAnimations().length === 0);
+    const overflow = await page.evaluate(
+      () => document.documentElement.scrollWidth - window.innerWidth,
+    );
+    expect(overflow).toBeLessThanOrEqual(0);
+  });
+});
+
+test("has a heading outline: page h1, chapter h2, verse h3", async ({
+  page,
+}) => {
+  await expect(page.getByRole("heading", { level: 1 })).toHaveCount(1);
+  await expect(page.getByRole("heading", { level: 2 })).toHaveCount(
+    CHAPTERS.length,
   );
-  expect(overflow).toBeLessThanOrEqual(0);
+  await expect(page.getByRole("main")).toHaveCount(1);
+
+  await chapterButton(page, "The Path To Realization").click();
+  const verses = page.getByRole("article");
+  const count = await verses.count();
+  expect(count).toBeGreaterThan(0);
+  await expect(page.getByRole("heading", { level: 3 })).toHaveCount(count);
+});
+
+test("marks Sanskrit as IAST", async ({ page }) => {
+  await chapterButton(page, "Integration").click();
+  const original = page.getByText("atha yogānuśāsanam", { exact: true });
+  await expect(original).toHaveAttribute("lang", "sa-Latn");
+  const terms = page.getByRole("term");
+  expect(await terms.count()).toBeGreaterThan(0);
+  for (const term of await terms.all()) {
+    await expect(term).toHaveAttribute("lang", "sa-Latn");
+  }
 });
 
 test.describe("axe, WCAG 2.2 AA", () => {

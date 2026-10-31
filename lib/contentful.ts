@@ -22,13 +22,19 @@ type ChapterSkeleton = EntrySkeletonType<
   "chapter"
 >;
 
-// Plain, serializable shapes passed to pages as props.
+// Plain, serializable shapes passed to components.
+export type GlossaryEntry = {
+  term: string;
+  meaning: string;
+};
+
 export type Verse = {
   id: string;
-  verseNumber: number | null;
+  reference: { chapter: number | null; verse: number | null };
   english: string | null;
+  /** IAST transliteration. */
   sanskrit: string | null;
-  sanskritWords: string[];
+  glossary: GlossaryEntry[];
 };
 
 export type Chapter = {
@@ -51,15 +57,32 @@ function requireEnv(name: string): string {
 const byNumber = (a: number | null, b: number | null) =>
   (a ?? Number.MAX_SAFE_INTEGER) - (b ?? Number.MAX_SAFE_INTEGER);
 
+const textOrNull = (value: string | undefined) => value?.trim() || null;
+
+/** Splits a Contentful glossary string such as "atha = now" into term and meaning. */
+export function parseGlossaryEntry(entry: string): GlossaryEntry {
+  const separator = entry.indexOf("=");
+  if (separator === -1) {
+    return { term: entry.trim(), meaning: "" };
+  }
+  return {
+    term: entry.slice(0, separator).trim(),
+    meaning: entry.slice(separator + 1).trim(),
+  };
+}
+
 function toVerse(
   entry: Entry<VerseSkeleton, "WITHOUT_UNRESOLVABLE_LINKS">,
+  chapter: number | null,
 ): Verse {
   return {
     id: entry.sys.id,
-    verseNumber: entry.fields.verseNumber ?? null,
-    english: entry.fields.englishVerse ?? null,
-    sanskrit: entry.fields.sanskritVerse ?? null,
-    sanskritWords: entry.fields.sanskritWords ?? [],
+    reference: { chapter, verse: entry.fields.verseNumber ?? null },
+    english: textOrNull(entry.fields.englishVerse),
+    sanskrit: textOrNull(entry.fields.sanskritVerse),
+    glossary: (entry.fields.sanskritWords ?? [])
+      .map(parseGlossaryEntry)
+      .filter((item) => item.term !== ""),
   };
 }
 
@@ -77,14 +100,17 @@ export async function getChapters(): Promise<Chapter[]> {
     });
 
   return response.items
-    .map((entry) => ({
-      id: entry.sys.id,
-      chapterNumber: entry.fields.chapterNumber ?? null,
-      title: entry.fields.chapterTitle ?? null,
-      verses: (entry.fields.verses ?? [])
-        .filter((verse) => verse !== undefined)
-        .map(toVerse)
-        .sort((a, b) => byNumber(a.verseNumber, b.verseNumber)),
-    }))
+    .map((entry) => {
+      const chapterNumber = entry.fields.chapterNumber ?? null;
+      return {
+        id: entry.sys.id,
+        chapterNumber,
+        title: entry.fields.chapterTitle ?? null,
+        verses: (entry.fields.verses ?? [])
+          .filter((verse) => verse !== undefined)
+          .map((verse) => toVerse(verse, chapterNumber))
+          .sort((a, b) => byNumber(a.reference.verse, b.reference.verse)),
+      };
+    })
     .sort((a, b) => byNumber(a.chapterNumber, b.chapterNumber));
 }
