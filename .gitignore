@@ -43,3 +43,6 @@ next-env.d.ts
 !.yarn/sdks
 !.yarn/versions
 .pnp.*
+
+# Claude Code worktrees of other sessions
+.claude/worktrees/

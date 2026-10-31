@@ -4,3 +4,4 @@ build
 .yarn
 yarn.lock
 data.json
+.claude/worktrees

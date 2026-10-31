@@ -11,6 +11,7 @@ export default defineConfig([
   { rules: jsxA11y.flatConfigs.recommended.rules },
   prettier,
   globalIgnores([
+    ".claude/worktrees/**",
     ".next/**",
     "out/**",
     "build/**",
