@@ -3,8 +3,8 @@
 One-page online edition of the Yoga-Sûtra: four chapters as expandable sections; each verse shows the
 English translation, the Sanskrit and a word-by-word glossary. Content comes from Contentful.
 
-Stack: Next.js 16 (App Router), React 19, TypeScript 5 (strict), Yarn 4. Tailwind 3 is still in use and
-is removed when the design system (CSS custom properties + CSS Modules) is built.
+Stack: Next.js 16 (App Router), React 19, TypeScript 5 (strict), Yarn 4. Tailwind 3 remains in `accordion` and
+`chapterList` only; new components use CSS Modules and tokens.
 
 ## Commands
 
@@ -23,7 +23,8 @@ yarn test:e2e        # Playwright + axe at 375px and 1280px; builds the app, por
 
 - `app/` App Router: `layout.tsx` (html, metadata), `page.tsx` (server component, fetches content at build time)
 - `lib/contentful.ts` Contentful client, content-model types, `getChapters()`
-- `components/` UI components (`accordion`, `chapterList` (client), `container`, `verseSingle`)
+- `components/` UI components: `verse` (the verse pattern), `container`, `accordion` and `chapterList` (client)
+- `styles/tokens.css` design tokens; `styles/globals.css` base styles
 - `styles/globals.css` global styles
 - `data.json` sample data from before Contentful; not imported anywhere
 - `test/` Vitest setup and fixtures; `e2e/` Playwright specs
