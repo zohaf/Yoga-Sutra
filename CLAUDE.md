@@ -3,7 +3,7 @@
 One-page online edition of the Yoga-Sûtra: four chapters as expandable sections; each verse shows the
 English translation, the Sanskrit and a word-by-word glossary. Content comes from Contentful.
 
-Stack: Next.js 16 (pages router), React 19, TypeScript 5 (strict), Yarn 4. Tailwind 3 is still in use and
+Stack: Next.js 16 (App Router), React 19, TypeScript 5 (strict), Yarn 4. Tailwind 3 is still in use and
 is removed when the design system (CSS custom properties + CSS Modules) is built.
 
 ## Commands
@@ -19,9 +19,9 @@ yarn format          # Prettier write; format:check to verify
 
 ## Layout
 
-- `pages/` Next.js pages; `pages/index.tsx` fetches content in `getStaticProps`
+- `app/` App Router: `layout.tsx` (html, metadata), `page.tsx` (server component, fetches content at build time)
 - `lib/contentful.ts` Contentful client, content-model types, `getChapters()`
-- `components/` UI components (`accordion`, `container`, `verseSingle`)
+- `components/` UI components (`accordion`, `chapterList` (client), `container`, `verseSingle`)
 - `styles/globals.css` global styles
 - `data.json` sample data from before Contentful; not imported anywhere
 - `docs/` project rules and references, indexed in [docs/README.md](docs/README.md)

@@ -1,3 +1,5 @@
+"use client";
+
 import { Children, isValidElement } from "react";
 import type { FC, ReactNode } from "react";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
