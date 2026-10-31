@@ -41,7 +41,9 @@ export type Chapter = {
 function requireEnv(name: string): string {
   const value = process.env[name];
   if (!value) {
-    throw new Error(`Missing ${name}. Copy .env.example to .env.local and fill it in.`);
+    throw new Error(
+      `Missing ${name}. Copy .env.example to .env.local and fill it in.`,
+    );
   }
   return value;
 }
@@ -49,7 +51,9 @@ function requireEnv(name: string): string {
 const byNumber = (a: number | null, b: number | null) =>
   (a ?? Number.MAX_SAFE_INTEGER) - (b ?? Number.MAX_SAFE_INTEGER);
 
-function toVerse(entry: Entry<VerseSkeleton, "WITHOUT_UNRESOLVABLE_LINKS">): Verse {
+function toVerse(
+  entry: Entry<VerseSkeleton, "WITHOUT_UNRESOLVABLE_LINKS">,
+): Verse {
   return {
     id: entry.sys.id,
     verseNumber: entry.fields.verseNumber ?? null,
@@ -66,10 +70,11 @@ export async function getChapters(): Promise<Chapter[]> {
     accessToken: requireEnv("CONTENTFUL_ACCESS_TOKEN"),
   });
 
-  const response = await client.withoutUnresolvableLinks.getEntries<ChapterSkeleton>({
-    content_type: "chapter",
-    include: 2,
-  });
+  const response =
+    await client.withoutUnresolvableLinks.getEntries<ChapterSkeleton>({
+      content_type: "chapter",
+      include: 2,
+    });
 
   return response.items
     .map((entry) => ({
