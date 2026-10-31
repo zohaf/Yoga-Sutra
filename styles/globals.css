@@ -1,44 +1,26 @@
+@import "./tokens.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-html,
-body {
-  padding: 0;
-  margin: 0;
-  font-family:
-    system-ui,
-    "IBM Plex Sans",
-    -apple-system,
-    BlinkMacSystemFont,
-    Segoe UI,
-    Roboto,
-    Oxygen,
-    Ubuntu,
-    Cantarell,
-    Fira Sans,
-    Droid Sans,
-    Helvetica Neue,
-    sans-serif;
-}
-
-html {
-  --primary-color: rgb(25, 33, 254);
-  --black-color: #000;
-  --grey-color: rgba(255, 255, 255, 0.5);
-  --screen-xs: 375px;
-  --screen-sm: 575px;
-}
 
 html {
   /* The page is light text on a dark background in every colour scheme. */
   color-scheme: dark;
 }
 
+html,
 body {
-  color: white;
-  background-color: var(--primary-color);
-  /* min-height: 100vh; */
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-body);
+  color: var(--color-text);
+  background-color: var(--color-background);
 }
 
 a {
@@ -48,4 +30,21 @@ a {
 
 * {
   box-sizing: border-box;
+}
+
+:focus-visible {
+  outline: var(--focus-ring-width) solid var(--color-focus);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }

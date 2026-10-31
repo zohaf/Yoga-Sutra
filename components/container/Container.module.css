@@ -1,0 +1,9 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: var(--layout-max-width);
+  margin-inline: auto;
+  margin-top: var(--space-28);
+  padding-inline: var(--layout-gutter);
+}
