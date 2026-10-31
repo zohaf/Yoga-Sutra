@@ -1,46 +1,26 @@
-import { NextPage } from "next";
+import type { GetStaticProps, NextPage } from "next";
 import { useState } from "react";
-import { useContentful } from "react-contentful";
-import type { HookResponse } from "react-contentful";
 import { Accordion } from "../components/accordion";
 import { Container } from "../components/container";
 import { VerseSingle } from "../components/verseSingle";
+import { getChapters } from "../lib/contentful";
+import type { Chapter } from "../lib/contentful";
 
-type Verse = {
-  fields: {
-    verseNumber: number;
-    englishVerse: string;
-    sanskritVerse: string;
-    sanskritWords: string[];
-  };
+type HomeProps = {
+  chapters: Chapter[];
 };
 
-type Chapter = {
-  fields: {
-    chapterNumber: number;
-    chapterTitle: string;
-    verses: Verse[];
-  };
-};
+export const getStaticProps: GetStaticProps<HomeProps> = async () => ({
+  props: { chapters: await getChapters() },
+});
 
-type BookData = {
-  items: Chapter[];
-};
-
-const Home: NextPage = () => {
-  let { data: contentfulData }: HookResponse = useContentful({
-    contentType: "chapter",
-    query: {},
-  });
-
-  const book = contentfulData as BookData;
-
-  const [clickedIndex, setClickedIndex] = useState(null);
+const Home: NextPage<HomeProps> = ({ chapters }) => {
+  const [clickedIndex, setClickedIndex] = useState<number | null>(null);
 
   return (
     <Container>
-      {book?.items?.map((chapter, index) => (
-        <Accordion key={index}>
+      {chapters.map((chapter, index) => (
+        <Accordion key={chapter.id}>
           <Accordion.Header
             onClick={() => {
               if (clickedIndex === index) {
@@ -49,18 +29,21 @@ const Home: NextPage = () => {
                 setClickedIndex(index);
               }
             }}
-            title={chapter.fields.chapterTitle}
+            title={chapter.title ?? ""}
+            expanded={clickedIndex === index}
+            controls={`chapter-${chapter.id}`}
           />
           {clickedIndex === index && (
-            <Accordion.Body>
+            <Accordion.Body id={`chapter-${chapter.id}`}>
               <div className="h-[2px] bg-white mb-8" />
-              {chapter.fields.verses?.map((verse, index) => (
+              {chapter.verses.map((verse) => (
                 <VerseSingle
-                  key={index}
-                  verseNumber={verse.fields.verseNumber}
-                  verseEnglish={verse.fields.englishVerse}
-                  verseSanskrit={verse.fields.sanskritVerse}
-                  sanskritWords={verse.fields.sanskritWords}
+                  key={verse.id}
+                  chapterNumber={chapter.chapterNumber}
+                  verseNumber={verse.verseNumber}
+                  verseEnglish={verse.english}
+                  verseSanskrit={verse.sanskrit}
+                  sanskritWords={verse.sanskritWords}
                 />
               ))}
             </Accordion.Body>

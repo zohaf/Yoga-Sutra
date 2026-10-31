@@ -1,0 +1,6 @@
+.next
+out
+build
+.yarn
+yarn.lock
+data.json
