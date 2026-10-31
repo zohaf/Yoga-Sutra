@@ -19,7 +19,7 @@ export const VerseSingle: FC<VerseProps> = ({
 }) => (
   <div className="flex flex-col sm:flex-row gap-4 md:gap-10 mb-10">
     <div className="flex justify-start">
-      <h1 className="w-8 font-bold">
+      <h1 className="w-16 shrink-0 font-bold">
         {chapterNumber ? ROMAN_NUMERALS[chapterNumber - 1] : ""}. {verseNumber}
       </h1>
       <h1 className="sm:min-w-[480px] font-bold">{verseEnglish}</h1>
