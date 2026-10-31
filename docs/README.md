@@ -11,4 +11,6 @@ describe the intent and the rules the code follows.
 | [Layouts](layouts.md)                         | Placeholder | Page layouts and breakpoints, mobile first             |
 | [Reading flow](reading-flow.md)               | Placeholder | How a reader moves through chapters and verses         |
 
+[Audit, 2026-11-01](audit.md) lists what falls outside a pattern today and proposes the verse pattern.
+
 The design-system documents wait until the point of view is approved.

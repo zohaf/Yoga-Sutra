@@ -15,6 +15,8 @@ yarn build
 yarn typecheck
 yarn lint            # ESLint: next + jsx-a11y recommended
 yarn format          # Prettier write; format:check to verify
+yarn test            # Vitest + Testing Library (components)
+yarn test:e2e        # Playwright + axe at 375px and 1280px; builds the app, port 3217
 ```
 
 ## Layout
@@ -24,6 +26,7 @@ yarn format          # Prettier write; format:check to verify
 - `components/` UI components (`accordion`, `chapterList` (client), `container`, `verseSingle`)
 - `styles/globals.css` global styles
 - `data.json` sample data from before Contentful; not imported anywhere
+- `test/` Vitest setup and fixtures; `e2e/` Playwright specs
 - `docs/` project rules and references, indexed in [docs/README.md](docs/README.md)
 - `.claude/agents/` `a11y-reviewer` and `code-reviewer` (report only)
 - `.claude/hooks/` Prettier after edits, typecheck at Stop

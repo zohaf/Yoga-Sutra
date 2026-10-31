@@ -67,6 +67,20 @@ test("has no horizontal scroll", async ({ page }) => {
   expect(overflow).toBeLessThanOrEqual(0);
 });
 
+// 640 CSS px is a 1280px window at 200% zoom (WCAG 1.4.4 / 1.4.10).
+// Known failure: fixed min-widths in VerseSingle and min-w-fit in Container
+// overflow by 160px. Remove test.fail() once the verse layout is rebuilt.
+test("has no horizontal scroll at 640px", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop-1280", "desktop only");
+  test.fail();
+  await page.setViewportSize({ width: 640, height: 800 });
+  await chapterButton(page, "The Path To Realization").click();
+  const overflow = await page.evaluate(
+    () => document.documentElement.scrollWidth - window.innerWidth,
+  );
+  expect(overflow).toBeLessThanOrEqual(0);
+});
+
 test.describe("axe, WCAG 2.2 AA", () => {
   test("collapsed", async ({ page }) => {
     await expectNoAxeViolations(page);
