@@ -49,15 +49,17 @@ for small screens, the media query adds the wide layout.
 
 ## Motion
 
-| Token                      | Value                           | Use                                  |
-| -------------------------- | ------------------------------- | ------------------------------------ |
-| `--motion-duration-expand` | 800ms                           | Chapter panel height, open and close |
-| `--motion-duration-fade`   | 650ms                           | Chapter panel content fade           |
-| `--motion-easing-soft`     | `cubic-bezier(0.25, 1, 0.5, 1)` | Fast start, long gentle settle       |
+| Token                          | Value                           | Use                                     |
+| ------------------------------ | ------------------------------- | --------------------------------------- |
+| `--motion-duration-expand`     | 800ms                           | Chapter panel height, open and close    |
+| `--motion-duration-expand-max` | 2000ms                          | Longest chapter panel height transition |
+| `--motion-duration-fade`       | 650ms                           | Chapter panel content fade              |
+| `--motion-easing-soft`         | `cubic-bezier(0.25, 1, 0.5, 1)` | Fast start, long gentle settle          |
 
 `--motion-duration-expand` is the minimum. The accordion multiplies it by a chapter's content height
 divided by half the viewport height (`--panel-duration-scale`, never below 1), so the part of a chapter on
-screen moves at the same speed whatever its length.
+screen moves at the same speed whatever its length, up to `--motion-duration-expand-max`. Longer chapters
+move faster than the rest, so closing one does not leave empty space shrinking for several seconds.
 
 Under `prefers-reduced-motion: reduce` both durations are 0ms.
 

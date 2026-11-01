@@ -24,11 +24,13 @@
  * hidden from the accessibility tree once the transition ends (visibility).
  * Open: grid row grows to the content height while the content fades in.
  * --panel-duration-scale (set by Body) lengthens the height transition for
- * tall chapters so the visible part moves at the same speed in every chapter.
+ * tall chapters so the visible part moves at the same speed in every chapter,
+ * up to --motion-duration-expand-max.
  */
 .panel {
-  --panel-duration-expand: calc(
-    var(--motion-duration-expand) * var(--panel-duration-scale, 1)
+  --panel-duration-expand: min(
+    var(--motion-duration-expand) * var(--panel-duration-scale, 1),
+    var(--motion-duration-expand-max)
   );
 
   display: grid;
