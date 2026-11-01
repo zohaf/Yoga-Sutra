@@ -23,16 +23,22 @@
  * The panel is always in the DOM. Closed: zero height, transparent, and
  * hidden from the accessibility tree once the transition ends (visibility).
  * Open: grid row grows to the content height while the content fades in.
+ * --panel-duration-scale (set by Body) lengthens the height transition for
+ * tall chapters so the visible part moves at the same speed in every chapter.
  */
 .panel {
+  --panel-duration-expand: calc(
+    var(--motion-duration-expand) * var(--panel-duration-scale, 1)
+  );
+
   display: grid;
   grid-template-rows: 0fr;
   opacity: 0;
   visibility: hidden;
   transition:
-    grid-template-rows var(--motion-duration-expand) var(--motion-easing-soft),
+    grid-template-rows var(--panel-duration-expand) var(--motion-easing-soft),
     opacity var(--motion-duration-fade) var(--motion-easing-soft),
-    visibility 0s linear var(--motion-duration-expand);
+    visibility 0s linear var(--panel-duration-expand);
 }
 
 .panel[data-open="true"] {
@@ -40,7 +46,7 @@
   opacity: 1;
   visibility: visible;
   transition:
-    grid-template-rows var(--motion-duration-expand) var(--motion-easing-soft),
+    grid-template-rows var(--panel-duration-expand) var(--motion-easing-soft),
     opacity var(--motion-duration-fade) var(--motion-easing-soft),
     visibility 0s linear 0s;
 }
