@@ -56,10 +56,13 @@ for small screens, the media query adds the wide layout.
 | `--motion-duration-fade`       | 650ms                           | Chapter panel content fade              |
 | `--motion-easing-soft`         | `cubic-bezier(0.25, 1, 0.5, 1)` | Fast start, long gentle settle          |
 
-`--motion-duration-expand` is the minimum. The accordion multiplies it by a chapter's content height
-divided by half the viewport height (`--panel-duration-scale`, never below 1), so the part of a chapter on
-screen moves at the same speed whatever its length, up to `--motion-duration-expand-max`. Longer chapters
-move faster than the rest, so closing one does not leave empty space shrinking for several seconds.
+Opening a chapter animates only the part that fits on screen, from 0 to the space below its heading, in
+`--motion-duration-expand`; the rest appears off screen when the animation ends. A transition to the full
+height would spend its gentle settle below the fold, so a long chapter would appear to open at once.
+
+Closing uses `--motion-duration-expand` as the minimum. The accordion multiplies it by a chapter's content
+height divided by half the viewport height (`--panel-duration-scale`, never below 1), up to
+`--motion-duration-expand-max`, so the part on screen moves at a similar speed whatever the length.
 
 Under `prefers-reduced-motion: reduce` both durations are 0ms.
 

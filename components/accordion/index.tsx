@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import type { CSSProperties, FC, ReactNode } from "react";
+import type { CSSProperties, FC, ReactNode, RefObject } from "react";
 import styles from "./Accordion.module.css";
 
 type SubComponent = {
@@ -35,7 +35,7 @@ const Header: FC<{
 /**
  * Content height, in viewport heights, that the base expand duration is tuned
  * for (the first chapter on desktop). Taller content gets a proportionally
- * longer transition, so the part on screen always moves at the same speed.
+ * longer closing transition, so the part on screen moves at the same speed.
  */
 const REFERENCE_VIEWPORTS = 0.5;
 
@@ -63,16 +63,74 @@ const useDurationScale = () => {
   return [ref, scale] as const;
 };
 
+const readDuration = (element: Element, token: string) => {
+  const value = getComputedStyle(element).getPropertyValue(token).trim();
+  return value.endsWith("ms") ? parseFloat(value) : parseFloat(value) * 1000;
+};
+
+/**
+ * Viewport height left below the panel's top once any panel above it has
+ * finished closing (opening one chapter closes the open one).
+ */
+const visibleSpaceBelow = (panel: HTMLElement) => {
+  const closingAbove = [...document.querySelectorAll(`.${styles.panel}`)]
+    .filter(
+      (other) =>
+        other !== panel &&
+        other.getAttribute("data-open") === "false" &&
+        other.compareDocumentPosition(panel) & Node.DOCUMENT_POSITION_FOLLOWING,
+    )
+    .reduce((sum, other) => sum + other.getBoundingClientRect().height, 0);
+  const top = Math.max(0, panel.getBoundingClientRect().top - closingAbove);
+  return window.innerHeight - top;
+};
+
+/**
+ * Opening animates only the part that fits on screen: max-height from 0 to
+ * min(panel, space below it) with the base expand duration. A CSS transition to
+ * the full height would spend its gentle deceleration below the fold, so a
+ * tall chapter would appear to open at once. The rest appears off screen
+ * when the animation ends.
+ */
+const useOpenAnimation = (
+  open: boolean,
+  panelRef: RefObject<HTMLDivElement | null>,
+) => {
+  const wasOpen = useRef(open);
+
+  useEffect(() => {
+    const opening = open && !wasOpen.current;
+    wasOpen.current = open;
+    const panel = panelRef.current;
+    if (!opening || !panel || !panel.animate) return;
+
+    const duration = readDuration(panel, "--motion-duration-expand");
+    if (!duration) return;
+    const easing = getComputedStyle(panel)
+      .getPropertyValue("--motion-easing-soft")
+      .trim();
+    const target = Math.min(panel.scrollHeight, visibleSpaceBelow(panel));
+    const animation = panel.animate(
+      [{ maxHeight: "0px" }, { maxHeight: `${target}px` }],
+      { duration, easing },
+    );
+    return () => animation.cancel();
+  }, [open, panelRef]);
+};
+
 /** Always rendered so opening and closing can animate; `inert` while closed. */
 const Body: FC<{ id: string; open: boolean; children: ReactNode }> = ({
   id,
   open,
   children,
 }) => {
+  const panelRef = useRef<HTMLDivElement>(null);
   const [contentRef, scale] = useDurationScale();
+  useOpenAnimation(open, panelRef);
 
   return (
     <div
+      ref={panelRef}
       id={id}
       className={styles.panel}
       data-open={open}
