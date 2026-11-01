@@ -41,8 +41,8 @@
 
   /* Motion. Opening and closing a chapter: height and fade together, with a
      long, gentle deceleration. */
-  --motion-duration-expand: 500ms;
-  --motion-duration-fade: 400ms;
+  --motion-duration-expand: 800ms;
+  --motion-duration-fade: 650ms;
   --motion-easing-soft: cubic-bezier(0.25, 1, 0.5, 1);
 
   /* Lines */

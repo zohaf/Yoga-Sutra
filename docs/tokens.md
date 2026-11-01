@@ -51,8 +51,8 @@ for small screens, the media query adds the wide layout.
 
 | Token                      | Value                           | Use                                  |
 | -------------------------- | ------------------------------- | ------------------------------------ |
-| `--motion-duration-expand` | 500ms                           | Chapter panel height, open and close |
-| `--motion-duration-fade`   | 400ms                           | Chapter panel content fade           |
+| `--motion-duration-expand` | 800ms                           | Chapter panel height, open and close |
+| `--motion-duration-fade`   | 650ms                           | Chapter panel content fade           |
 | `--motion-easing-soft`     | `cubic-bezier(0.25, 1, 0.5, 1)` | Fast start, long gentle settle       |
 
 Under `prefers-reduced-motion: reduce` both durations are 0ms.
